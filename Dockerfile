@@ -18,7 +18,9 @@ WORKDIR /app
 # Install dependencies using uv
 # We use --system to install into the main python env since we are in a container
 RUN uv pip install --system \
-    torch torchvision --index-url https://download.pytorch.org/whl/cu124 \
+    torch torchvision \
+    --index-url https://download.pytorch.org/whl/cu124 \
+    && uv pip install --system \
     "git+https://github.com/huggingface/diffusers" \
     "transformers>=4.48.0" \
     "accelerate>=0.34.0" \
