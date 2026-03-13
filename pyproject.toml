@@ -1,0 +1,21 @@
+[project]
+name = "ascender-inference-engine"
+version = "0.1.0"
+description = "Z-Image-Turbo Inference Engine for RunPod"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "diffusers>=0.36.0",
+    "transformers>=4.48.0",
+    "accelerate>=0.34.0",
+    "huggingface_hub>=0.34.0",
+    "sentencepiece",
+    "runpod",
+    "pillow",
+    "torch",
+    "torchvision",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
