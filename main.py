@@ -15,15 +15,22 @@ def load_model():
         model_id = os.getenv("MODEL_ID", "Tongyi-MAI/Z-Image-Turbo")
         print(f"Loading model: {model_id}...")
         
+        # Check for multiple GPUs
+        num_gpus = torch.cuda.device_count()
+        device_map = "auto" if num_gpus > 1 else None
+        
         # Load the pipeline with bfloat16 for efficiency
-        # Z-Image-Turbo requires recent diffusers version
         pipe = ZImagePipeline.from_pretrained(
             model_id, 
             torch_dtype=torch.bfloat16,
-            use_safetensors=True
+            use_safetensors=True,
+            device_map=device_map
         )
-        pipe.to("cuda")
-        print("Model loaded successfully.")
+        
+        if device_map is None:
+            pipe.to("cuda")
+            
+        print(f"Model loaded successfully on {num_gpus} GPU(s).")
 
 def handler(job):
     """
