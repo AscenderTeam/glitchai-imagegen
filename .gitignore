@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+.env
+.pytest_cache/
+
+# UV
+uv.lock
+
+# Models and Large Files
+models/
+*.safetensors
+*.gguf
+*.ckpt
+*.bin
+cache/
+
+# Project
+.idea/
+.vscode/
+*.log
+output/
+z_image_turbo_output.png
+
+# Rust leftover
+/target
