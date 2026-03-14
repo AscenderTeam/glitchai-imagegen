@@ -23,6 +23,7 @@ RUN uv pip install --system \
     --index-url https://download.pytorch.org/whl/cu124 \
     && uv pip install --system \
     "bitsandbytes>=0.46.0" \
+    "peft>=0.14.0" \
     "git+https://github.com/huggingface/diffusers" \
     "transformers>=4.48.0" \
     "accelerate>=0.34.0" \
