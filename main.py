@@ -30,6 +30,11 @@ def get_hf_token():
     return os.getenv("HF_TOKEN")
 
 
+def use_cpu_offload():
+    value = os.getenv("ENABLE_CPU_OFFLOAD", "1").strip().lower()
+    return value not in {"0", "false", "no", "off"}
+
+
 def resolve_cache_dir():
     configured_cache_dir = os.getenv("MODEL_CACHE_DIR") or os.getenv("HF_HOME")
     if configured_cache_dir:
@@ -141,6 +146,8 @@ def load_model():
     token = get_hf_token()
     cache_dir = resolve_cache_dir()
     ensure_cache_capacity(cache_dir)
+    cpu_offload = use_cpu_offload()
+    module_device_map = "cpu" if cpu_offload else {"": 0}
 
     print(f"Loading quantized text encoder: {QUANTIZED_MODEL_ID}")
     text_encoder = Mistral3ForConditionalGeneration.from_pretrained(
@@ -149,7 +156,7 @@ def load_model():
         cache_dir=cache_dir,
         token=token,
         torch_dtype=torch.bfloat16,
-        device_map="cpu",
+        device_map=module_device_map,
     )
 
     print(f"Loading quantized transformer: {QUANTIZED_MODEL_ID}")
@@ -159,7 +166,7 @@ def load_model():
         cache_dir=cache_dir,
         token=token,
         torch_dtype=torch.bfloat16,
-        device_map="cpu",
+        device_map=module_device_map,
     )
 
     pipe = Flux2Pipeline.from_pretrained(
@@ -178,9 +185,14 @@ def load_model():
         token=token,
         weight_name=TURBO_LORA_WEIGHT,
     )
-    pipe.enable_model_cpu_offload()
 
-    print("Quantized FLUX.2 Turbo loaded with CPU offload for 24 GB VRAM targets.")
+    if cpu_offload:
+        pipe.enable_model_cpu_offload()
+        print("Quantized FLUX.2 Turbo loaded with CPU offload enabled.")
+    else:
+        pipe.to("cuda")
+        print("Quantized FLUX.2 Turbo loaded fully on GPU without CPU offload.")
+
     return pipe
 
 

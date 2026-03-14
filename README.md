@@ -50,6 +50,7 @@ The worker automatically uses `/runpod-volume/huggingface` when a RunPod volume 
 - `TURBO_LORA_WEIGHT`: default `flux.2-turbo-lora.safetensors`
 - `MODEL_CACHE_DIR`: override the Hugging Face cache location
 - `MODEL_DOWNLOAD_MIN_FREE_GB`: startup free-space threshold, default `50`
+- `ENABLE_CPU_OFFLOAD`: default `1`; set to `0` to try full-GPU mode on the A5000
 - `DEFAULT_WIDTH`: default output width, default `1024`
 - `DEFAULT_HEIGHT`: default output height, default `1024`
 - `MAX_IMAGE_SIDE`: max auto-sized output side, default `1024`
