@@ -1,19 +1,20 @@
 [project]
-name = "ascender-inference-engine"
+name = "flux2-turbo-runpod-worker"
 version = "0.1.0"
-description = "Z-Image-Turbo Inference Engine for RunPod"
+description = "A5000-friendly RunPod worker for quantized FLUX.2 Turbo"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 dependencies = [
-    "diffusers>=0.36.0",
-    "transformers>=4.48.0",
     "accelerate>=0.34.0",
+    "bitsandbytes>=0.46.0",
+    "diffusers @ git+https://github.com/huggingface/diffusers.git",
     "huggingface_hub>=0.34.0",
-    "sentencepiece",
-    "runpod",
-    "pillow",
-    "torch",
-    "torchvision",
+    "pillow>=10.0.0",
+    "runpod>=1.7.0",
+    "sentencepiece>=0.2.0",
+    "torch>=2.4.0",
+    "torchvision>=0.19.0",
+    "transformers>=4.48.0",
 ]
 
 [build-system]
